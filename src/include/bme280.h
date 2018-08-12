@@ -1,57 +1,59 @@
-#include <math.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/i2c-dev.h>
+#include <stdint.h>
 
-class BME280
-{
-private:
-  unsigned short digT1;
-  signed short   digT2;
-  signed short   digT3;
-  unsigned short digP1;
-  signed short   digP2;
-  signed short   digP3;
-  signed short   digP4;
-  signed short   digP5;
-  signed short   digP6;
-  signed short   digP7;
-  signed short   digP8;
-  signed short   digP9;
-  unsigned char  digH1;
-  signed short   digH2;
-  unsigned char  digH3;
-  signed short   digH4;
-  signed short   digH5;
-  signed char    digH6;
+#ifndef BME280_H
+#define BME280_H
 
-  unsigned short rawHumidity;
-  unsigned long  rawTemperature;
-  unsigned long  rawPressure;
+  class BME280
+  {
+  private:
+    unsigned short digT1;
+    signed short   digT2;
+    signed short   digT3;
+    unsigned short digP1;
+    signed short   digP2;
+    signed short   digP3;
+    signed short   digP4;
+    signed short   digP5;
+    signed short   digP6;
+    signed short   digP7;
+    signed short   digP8;
+    signed short   digP9;
+    unsigned char  digH1;
+    signed short   digH2;
+    unsigned char  digH3;
+    signed short   digH4;
+    signed short   digH5;
+    signed char    digH6;
 
-  int32_t  t_fine;
+    unsigned short rawHumidity;
+    unsigned long  rawTemperature;
+    unsigned long  rawPressure;
 
-  const char* device;
-  unsigned int fd;
+    int32_t  t_fine;
 
-  int readChunk(__u8, int, unsigned short*);
-  int readCompensationData(void);
-  int readRawData(void);
-  void calcTemperature(void);
-  void calcPressure(void);
-  void calcHumidity(void);
+    const char* device;
+    unsigned int fd;
 
- public:
-  unsigned char address;
+    int readChunk(uint8_t, int, unsigned short*);
+    int readCompensationData(void);
+    int readRawData(void);
+    void calcTemperature(void);
+    void calcPressure(void);
+    void calcHumidity(void);
 
-  double altitude;
+  public:
+    unsigned char address;
 
-  double temperature;
-  double pressure;
-  double pressureAtSeaLevel;
-  double humidity;
+    double altitude;
 
-  BME280(char* device, unsigned int address, double altitude);
-  int setup(void);
-  int measure(void);
-};
+    double temperature;
+    double pressure;
+    double pressureAtSeaLevel;
+    double humidity;
+
+    BME280(char* device, unsigned int address, double altitude);
+    int setup(void);
+    int measure(void);
+  };
+
+#endif // BME280_H
