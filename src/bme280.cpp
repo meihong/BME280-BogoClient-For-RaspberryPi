@@ -1,8 +1,12 @@
+#include <math.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/i2c-dev.h>
 #include "bme280.h"
 
-int BME280::readChunk(__u8 address, int size, unsigned short* buffer)
+int BME280::readChunk(uint8_t address, int size, unsigned short* buffer)
 {
-  __s32 readed;
+  int32_t readed;
 
   for (int i = 0; i < size; i++) {
     readed = i2c_smbus_read_byte_data(fd, address + i);
